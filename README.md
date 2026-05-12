@@ -20,6 +20,27 @@
 
 # Technical Architecture Showcase
 
+## Contents
+
+1. [Overview](#1-overview)
+2. [System Context](#2-system-context)
+3. [Start Here](#3-start-here-reading-map)
+4. [Architecture at a Glance](#4-architecture-at-a-glance)
+5. [Architecture Boundaries](#5-architecture-boundaries)
+6. [Module / Component Map](#6-module--component-map)
+7. [External Integrations](#7-external-integrations)
+8. [Execution Flows](#8-execution-flows)
+9. [State & Data Management](#9-state--data-management)
+10. [Reliability & Failure Handling](#10-reliability--failure-handling)
+11. [Security Model](#11-security-model-high-level)
+12. [Key Engineering Decisions & Trade-offs](#12-key-engineering-decisions--trade-offs)
+13. [How to Evaluate This Codebase](#13-how-to-evaluate-this-codebase)
+14. [AI- and Tool-Facing Consumers](#14-ai--and-tool-facing-consumers)
+15. [Current State & Evolution](#15-current-state--evolution)
+16. [Closing Note](#16-closing-note)
+
+---
+
 ## 1) Overview
 
 This system is a long-running PHP-based monolith built on an MVC
