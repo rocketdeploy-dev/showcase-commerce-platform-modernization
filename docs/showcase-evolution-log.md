@@ -133,5 +133,100 @@ technical architecture artifact.
 
 ------------------------------------------------------------------------
 
+
+## Entry 002 — Contract-driven consumers, append-only domains, and AI capability seams
+
+### Summary
+
+The showcased architecture has moved beyond the first visible module-boundary cleanup. It now represents a broader modernization stage in which selected domains are exposed through explicit read APIs, append-only/current-state models, Core API facades, MCP tools, AI gateway capabilities, and dedicated runtime jobs.
+
+The important change is not runtime microservice extraction yet. The important change is that new consumers are increasingly routed through contracts rather than legacy implementation details.
+
+### Architectural signals now visible
+
+#### 1. Activities as read-model and audit-log boundary
+
+The activities area now shows a dedicated `activities/v1` read boundary with list, detail, and filter endpoints. The module includes explicit DTOs, seller access scoping, legacy payload decoding, read-model mapping, and a normalized activity type model.
+
+The storage direction also changed materially. Activity reads moved from the old legacy repository to a projected read repository, and the `Activity` model now represents `activities_current` rather than the old mutable table. Update and delete behavior is blocked, and new records are written through an append-only store.
+
+#### 2. Orders as external synchronization and read boundary
+
+The orders area now represents a full external-data modernization path: provider ports and DTOs, sync run tracking, raw provider payload storage, snapshots, line items, external references, change/payload hashing, current-state read models, internal legacy read API, Core API facade, MCP tools, and a dedicated external orders sync job container.
+
+The eBay path also includes fulfillment-oriented data such as ship-by dates and shipment urgency semantics.
+
+#### 3. Messages as multilingual and AI-assisted workflow boundary
+
+The messages area now includes thread synchronization, message reads, translation, reply assistance, and send-reply flows behind explicit use cases and v1 endpoints.
+
+Implemented architectural elements include:
+
+- thread and thread-list translation use cases,
+- translation DTOs,
+- translation endpoints for selected thread lists and individual threads,
+- persisted per-user translation language preference,
+- UI integration in `messages-ui.js`,
+- AI gateway translation adapter,
+- message translation worker use case,
+- dedicated message translation worker container,
+- reply composer context endpoint,
+- suggested reply draft endpoint,
+- compose-reply endpoint,
+- final send-reply endpoint kept as a separate explicit action.
+
+#### 4. Notifications as user-scoped MCP tools
+
+Notifications existed in an earlier modernization stage. The newer architectural change is tool exposure. Notifications are now available through Core API and MCP tools for list, detail, mark-read, archive, and bulk operations.
+
+The MCP/Core path propagates trusted internal user context using `X-Internal-User-Id`.
+
+#### 5. MCP as a controlled AI tool boundary
+
+The MCP server now exposes real Comers domain tools for messages, notifications, and orders. These tools route through `comers-core-api`; they do not call the legacy application directly.
+
+For sensitive user-scoped domains, tools fail closed when trusted internal-user context is missing.
+
+```text
+ChatKit / AI runtime
+→ MCP
+→ Core API
+→ legacy internal APIs and modules
+```
+
+#### 6. AI gateway as capability boundary
+
+The AI gateway now represents a separate internal capability layer. It exposes Comers-owned contracts such as `translate.v1` and `compose_reply.v1`.
+
+The gateway owns provider integration, structured OpenAI Responses API output, persistence for capability operations, idempotent operation creation, async operation reads, and background polling. The full AI runtime includes a dedicated gateway poller container.
+
+#### 7. Runtime repositories as part of the architecture
+
+Production/runtime Compose definitions were moved out of service repositories into dedicated infrastructure repositories. The AI runtime stack includes webapp, BFF, MCP, gateway, gateway poller, and ChatKit runtime. The legacy runtime stack is expressed as app, web, and multiple job containers, including external orders sync, message thread sync, recent message sync, and message translation worker.
+
+### Why this milestone changes the showcase
+
+The showcase no longer represents only a modularizing monolith. It now also represents contract-first access for new consumers, append-only/current-state domain modeling, AI-facing tool boundaries, internal AI capability contracts, and explicit runtime/job ownership.
+
+Legacy and modernized patterns still coexist, but the repository now shows concrete seams through which future service extraction and AI-assisted operations can continue without bypassing the system architecture.
+
+------------------------------------------------------------------------
 Future entries should be added only for major architectural milestones
 that materially change what this showcase represents.
+
+### Entry 002 technical implementation details
+
+This addendum keeps the showcase log focused on technical architecture rather than business outcomes. It records concrete seams that should be visible to reviewers when comparing this showcase with the earlier baseline:
+
+- `activities/v1` routes for list, detail, and filter access,
+- activity DTOs, read-model mapping, seller access scoping, and legacy payload decoding,
+- `activities_current` projection usage and disabled update/delete semantics for activity records,
+- append-only external order synchronization with raw payloads, snapshots, external references, sync runs, and current-state reads,
+- `orders/v1/items` read API and a Core API `OrdersModule`,
+- MCP tools for messages, notifications, and orders routed through Core API,
+- fail-closed trusted internal-user context for scoped tools,
+- messages translation use cases, translation DTOs, user language preference, UI integration, and translation worker runtime,
+- reply composer context, suggested reply draft, and compose reply use cases,
+- gateway capabilities `translate.v1` and `compose_reply.v1`,
+- gateway operation persistence, idempotent create behavior, and gateway poller runtime,
+- dedicated infra repositories for AI and legacy runtime composition.
