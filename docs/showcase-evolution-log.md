@@ -1,17 +1,18 @@
-# Showcase Evolution Log
-
-This document records major architectural changes reflected in this
-public showcase repository.
-
-It does **not** describe business outcomes or product evolution.
-
-Its purpose is to track how the showcased codebase evolves as a
-technical architecture artifact: which boundaries become more explicit,
-which execution or integration patterns are formalized, and how the
-repository increasingly represents a modernization-in-progress rather
-than only a stabilized legacy baseline.
+> This document records major architectural changes reflected in this
+> public showcase repository.
+> 
+> It does **not** describe business outcomes or product evolution.
+> 
+> Its purpose is to track how the showcased codebase evolves as a
+> technical architecture artifact: which boundaries become more explicit,
+> which execution or integration patterns are formalized, and how the
+> repository increasingly represents a modernization-in-progress rather
+> than only a stabilized legacy baseline.
 
 ------------------------------------------------------------------------
+
+# Showcase Evolution Log
+
 ## Contents
 
 - [Entry 001 — Clearer module boundaries, formalized integration seams, and hardened runtime](#entry-001--clearer-module-boundaries-formalized-integration-seams-and-hardened-runtime)
