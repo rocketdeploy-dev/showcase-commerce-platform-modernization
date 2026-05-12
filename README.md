@@ -132,6 +132,19 @@ Modernization is therefore not only planned --- it is already visible in
 the codebase. Several areas now expose contracts, read models, and runtime
 seams that make them realistic candidates for future service extraction.
 
+A newer architectural signal is the gradual move toward a polyglot runtime
+model. The legacy application remains PHP/Yii2-based, while new backend
+services and planned extracted domain services are primarily designed
+around Node.js / TypeScript / NestJS / Fastify. This includes core platform
+services such as `comers-core-api`, as well as BFF, MCP, gateway-style
+services, and planned domain services such as orders and messages.
+
+The frontend direction is intentionally split: the main SPA direction
+remains Angular-based, while selected micro-frontend surfaces, such as the
+current AI chat micro-frontend, can use React/Vite. Specialized runtimes
+are introduced where they provide a better fit, such as Python for the
+backend-controlled ChatKit runtime.
+
 ------------------------------------------------------------------------
 
 ## 5) Architecture Boundaries
