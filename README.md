@@ -356,7 +356,7 @@ rewrite-driven.
 
 ------------------------------------------------------------------------
 
-## 15) Current Architecture Direction
+## 16) Current Architecture Direction
 
 The current showcase should be read as a transitional architecture with several consumer-facing boundary types. The legacy application remains an important runtime unit, but selected domains are increasingly exposed through explicit contracts instead of direct coupling to controllers, Active Record models, or provider-specific integration code.
 
@@ -371,7 +371,7 @@ Important patterns now visible in the represented architecture include:
 
 This does not mean the system is already a microservices platform. It means the codebase now contains concrete seams through which future extraction can happen with less risk.
 
-## 16) Closing Note
+## 17) Closing Note
 
 This repository reflects a realistic modernization stage:
 
