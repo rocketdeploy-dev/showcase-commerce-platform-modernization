@@ -12,6 +12,12 @@ repository increasingly represents a modernization-in-progress rather
 than only a stabilized legacy baseline.
 
 ------------------------------------------------------------------------
+## Contents
+
+- [Entry 001 — Clearer module boundaries, formalized integration seams, and hardened runtime](#entry-001--clearer-module-boundaries-formalized-integration-seams-and-hardened-runtime)
+- [Entry 002 — Contract-driven consumers, append-only domains, and AI capability seams](#entry-002--contract-driven-consumers-append-only-domains-and-ai-capability-seams)
+
+---
 
 ## Entry 001 — Clearer module boundaries, formalized integration seams, and hardened runtime
 
