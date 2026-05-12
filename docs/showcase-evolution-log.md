@@ -228,5 +228,6 @@ This addendum keeps the showcase log focused on technical architecture rather th
 - dedicated infra repositories for AI and legacy runtime composition.
 
 ------------------------------------------------------------------------
+
 Future entries should be added only for major architectural milestones
 that materially change what this showcase represents.
