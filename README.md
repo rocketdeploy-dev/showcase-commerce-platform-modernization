@@ -334,6 +334,13 @@ The repository currently represents a transition from:
 -   to **stabilized modular monolith**
 -   to **selective boundary formalization in high-change and
     high-integration domains**
+-   to **contract-driven consumers and AI-facing capability seams**
+
+The current showcase should be read as a transitional architecture with
+several consumer-facing boundary types. The legacy application remains an
+important runtime unit, but selected domains are increasingly exposed
+through explicit contracts instead of direct coupling to controllers,
+Active Record models, or provider-specific integration code.
 
 Current indicators of evolution include:
 
@@ -345,33 +352,35 @@ Current indicators of evolution include:
 -   object-storage-backed artifact direction,
 -   append-only/current-state models in selected domains,
 -   internal v1 APIs for activities, orders, and messages,
+-   Core API facades that shield new consumers from legacy implementation
+    details,
+-   MCP tools that expose selected domain operations to AI-assisted
+    workflows,
 -   AI-assisted message translation and reply-composition flows,
--   Core API and MCP contracts for selected domain tools,
--   separated infrastructure/runtime repositories for AI and legacy stacks.
+-   AI gateway capabilities that hide provider-specific request shapes
+    behind internal contracts,
+-   explicit job containers for background processing such as
+    synchronization and translation,
+-   separated infrastructure/runtime repositories for AI and legacy
+    stacks.
+
+This does not mean the system is already a microservices platform.
+
+It means the codebase now contains concrete seams through which future
+extraction can happen with less risk:
+
+-   module APIs stabilize access before runtime extraction,
+-   append-only logs and projections make selected domains safer to read
+    and replay,
+-   Core API and MCP provide controlled access for new consumers,
+-   AI-facing operations are represented as bounded contracts,
+-   runtime repositories make background workers and deployment topology
+    explicit.
 
 Planned evolution remains incremental and extraction-driven rather than
 rewrite-driven.
 
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-## 16) Current Architecture Direction
-
-The current showcase should be read as a transitional architecture with several consumer-facing boundary types. The legacy application remains an important runtime unit, but selected domains are increasingly exposed through explicit contracts instead of direct coupling to controllers, Active Record models, or provider-specific integration code.
-
-Important patterns now visible in the represented architecture include:
-
-- append-only logs with projected current-state models for audit- or integration-heavy data,
-- read-only module APIs that stabilize access before any runtime extraction,
-- Core API facades that shield new consumers from legacy implementation details,
-- MCP tools that expose selected domain operations to AI-assisted workflows,
-- AI gateway capabilities that hide provider-specific request shapes behind internal contracts,
-- explicit job containers for background processing such as synchronization and translation.
-
-This does not mean the system is already a microservices platform. It means the codebase now contains concrete seams through which future extraction can happen with less risk.
-
-## 17) Closing Note
+## 16) Closing Note
 
 This repository reflects a realistic modernization stage:
 
