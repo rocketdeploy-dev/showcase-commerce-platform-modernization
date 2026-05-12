@@ -210,10 +210,6 @@ The showcase no longer represents only a modularizing monolith. It now also repr
 
 Legacy and modernized patterns still coexist, but the repository now shows concrete seams through which future service extraction and AI-assisted operations can continue without bypassing the system architecture.
 
-------------------------------------------------------------------------
-Future entries should be added only for major architectural milestones
-that materially change what this showcase represents.
-
 ### Entry 002 technical implementation details
 
 This addendum keeps the showcase log focused on technical architecture rather than business outcomes. It records concrete seams that should be visible to reviewers when comparing this showcase with the earlier baseline:
@@ -230,3 +226,7 @@ This addendum keeps the showcase log focused on technical architecture rather th
 - gateway capabilities `translate.v1` and `compose_reply.v1`,
 - gateway operation persistence, idempotent create behavior, and gateway poller runtime,
 - dedicated infra repositories for AI and legacy runtime composition.
+
+------------------------------------------------------------------------
+Future entries should be added only for major architectural milestones
+that materially change what this showcase represents.
