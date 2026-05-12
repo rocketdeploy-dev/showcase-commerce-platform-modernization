@@ -27,14 +27,17 @@ framework and continuously used in production for approximately a
 decade.
 
 In its current state, it is best described as a **legacy modular
-monolith under active boundary formalization**.
+monolith evolving toward contract-driven platform boundaries**.
 
 The architecture combines:
 
 -   server-rendered operational workflows,
 -   module-level JSON and internal API endpoints,
+-   append-only and projection-based read models in selected domains,
 -   scheduler-driven and long-running background execution,
 -   direct external-provider integrations,
+-   Core API and MCP-facing contracts for new consumers,
+-   AI-assisted operational workflows,
 -   relational persistence,
 -   object-storage-backed runtime artifacts.
 
@@ -42,8 +45,7 @@ The current engineering objective is **controlled architectural
 evolution**:
 
 Preserve operational continuity while progressively introducing explicit
-module boundaries, application-layer contracts, safer runtime patterns,
-and extraction-ready seams for future service decomposition.
+module boundaries, application-layer contracts, read-model APIs, safer runtime patterns, AI-facing tool seams, and extraction-ready boundaries for future service decomposition.
 
 This document focuses on architecture, boundaries, and modernization
 trajectory --- not on business logic.
@@ -106,7 +108,8 @@ Some responsibilities remain tightly coupled, but selected areas now
 show clearer contracts, ports, adapters, and dedicated use-case layers.
 
 Modernization is therefore not only planned --- it is already visible in
-the codebase.
+the codebase. Several areas now expose contracts, read models, and runtime
+seams that make them realistic candidates for future service extraction.
 
 ------------------------------------------------------------------------
 
@@ -142,9 +145,11 @@ Examples of identifiable component areas:
 -   core application configuration and shared runtime wiring,
 -   marketplace integration boundary,
 -   listings-oriented application and ingestion flows,
--   messaging/thread synchronization boundary,
+-   messaging/thread synchronization, translation, and reply-assistance boundary,
+-   activities read-model and audit-log boundary,
+-   orders synchronization and read-model boundary,
 -   shipping/integration registry boundary,
--   operator-facing notification surface,
+-   operator-facing notification surface and tool-facing notification operations,
 -   background job runtime wrappers and lock helpers,
 -   object-storage-backed artifact handling.
 
@@ -306,7 +311,22 @@ still implicit legacy coupling zones?**
 
 ------------------------------------------------------------------------
 
-## 14) Current State & Evolution
+## 14) AI- and Tool-Facing Consumers
+
+The showcased architecture now includes AI-assisted operational consumers.
+These consumers are not modeled as direct shortcuts into the legacy system.
+They depend on explicit API, Core API, MCP, and gateway capability seams.
+
+Visible patterns include message-thread translation, translation language
+preference, reply draft suggestion, reply composition, user-scoped
+notification actions, order read access, and activity/audit read models.
+
+The important architectural point is that AI-facing operations are represented
+as bounded contracts rather than unrestricted access to the legacy application.
+
+------------------------------------------------------------------------
+
+## 15) Current State & Evolution
 
 The repository currently represents a transition from:
 
@@ -322,14 +342,36 @@ Current indicators of evolution include:
 -   use-case-driven orchestration in newer areas,
 -   raw-first ingestion and reprocessing support,
 -   hardened background runtime behavior,
--   object-storage-backed artifact direction.
+-   object-storage-backed artifact direction,
+-   append-only/current-state models in selected domains,
+-   internal v1 APIs for activities, orders, and messages,
+-   AI-assisted message translation and reply-composition flows,
+-   Core API and MCP contracts for selected domain tools,
+-   separated infrastructure/runtime repositories for AI and legacy stacks.
 
 Planned evolution remains incremental and extraction-driven rather than
 rewrite-driven.
 
 ------------------------------------------------------------------------
 
-## 15) Closing Note
+------------------------------------------------------------------------
+
+## 15) Current Architecture Direction
+
+The current showcase should be read as a transitional architecture with several consumer-facing boundary types. The legacy application remains an important runtime unit, but selected domains are increasingly exposed through explicit contracts instead of direct coupling to controllers, Active Record models, or provider-specific integration code.
+
+Important patterns now visible in the represented architecture include:
+
+- append-only logs with projected current-state models for audit- or integration-heavy data,
+- read-only module APIs that stabilize access before any runtime extraction,
+- Core API facades that shield new consumers from legacy implementation details,
+- MCP tools that expose selected domain operations to AI-assisted workflows,
+- AI gateway capabilities that hide provider-specific request shapes behind internal contracts,
+- explicit job containers for background processing such as synchronization and translation.
+
+This does not mean the system is already a microservices platform. It means the codebase now contains concrete seams through which future extraction can happen with less risk.
+
+## 16) Closing Note
 
 This repository reflects a realistic modernization stage:
 
