@@ -210,6 +210,10 @@ The gateway owns provider integration, structured OpenAI Responses API output, p
 
 Production/runtime Compose definitions were moved out of service repositories into dedicated infrastructure repositories. The AI runtime stack includes webapp, BFF, MCP, gateway, gateway poller, and ChatKit runtime. The legacy runtime stack is expressed as app, web, and multiple job containers, including external orders sync, message thread sync, recent message sync, and message translation worker.
 
+This also introduces a polyglot runtime direction for the platform. The legacy runtime remains PHP/Yii2-based, while new backend services and planned extracted domain services are primarily designed around Node.js / TypeScript / NestJS / Fastify. This applies to core platform services such as `comers-core-api`, BFF, MCP, and gateway-style services, and is also the likely direction for planned domain services such as orders and messages.
+
+The frontend direction is intentionally split: the main SPA direction remains Angular-based, while selected micro-frontend surfaces, such as the current AI chat micro-frontend, can use React/Vite. Specialized runtimes are used where they provide a better fit, such as Python for the backend-controlled ChatKit runtime.
+
 ### Why this milestone changes the showcase
 
 The showcase no longer represents only a modularizing monolith. It now also represents contract-first access for new consumers, append-only/current-state domain modeling, AI-facing tool boundaries, internal AI capability contracts, and explicit runtime/job ownership.
